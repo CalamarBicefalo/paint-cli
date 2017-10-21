@@ -41,6 +41,24 @@ class CanvasTest {
     }
 
     @Test
+    fun `canvas - when reversed horizontal line drawn - prints canvas with line`() {
+        val expectedCanvas =
+                """#----------------------
+                   #|                    |
+                   #|xxxxxx              |
+                   #|                    |
+                   #|                    |
+                   #----------------------
+                   #""".trimMargin("#")
+        val canvas = Canvas(20, 4)
+        canvas.draw(Line(Point(6,2), Point(1,2)))
+
+        val canvasPrint = canvas.toString()
+
+        assertThat(canvasPrint).isEqualTo(expectedCanvas)
+    }
+
+    @Test
     fun `canvas - when vertical line drawn - prints canvas with line`() {
         val expectedCanvas =
                 """#----------------------
@@ -52,6 +70,24 @@ class CanvasTest {
                    #""".trimMargin("#")
         val canvas = Canvas(20, 4)
         canvas.draw(Line(Point(6,3), Point(6,4)))
+
+        val canvasPrint = canvas.toString()
+
+        assertThat(canvasPrint).isEqualTo(expectedCanvas)
+    }
+
+    @Test
+    fun `canvas - when reversed vertical line drawn - prints canvas with line`() {
+        val expectedCanvas =
+                """#----------------------
+                   #|                    |
+                   #|                    |
+                   #|     x              |
+                   #|     x              |
+                   #----------------------
+                   #""".trimMargin("#")
+        val canvas = Canvas(20, 4)
+        canvas.draw(Line(Point(6,4), Point(6,3)))
 
         val canvasPrint = canvas.toString()
 
@@ -71,6 +107,24 @@ class CanvasTest {
         val canvas = Canvas(20, 4)
         canvas.draw(Line(Point(1,2), Point(6,2)))
         canvas.draw(Line(Point(6,1), Point(6,4)))
+
+        val canvasPrint = canvas.toString()
+
+        assertThat(canvasPrint).isEqualTo(expectedCanvas)
+    }
+
+    @Test
+    fun `canvas - when rectangle - prints canvas with rectangle`() {
+        val expectedCanvas =
+                """#----------------------
+                   #|                    |
+                   #|               xxxxx|
+                   #|               x   x|
+                   #|               xxxxx|
+                   #----------------------
+                   #""".trimMargin("#")
+        val canvas = Canvas(20, 4)
+        canvas.draw(Rectangle(Point(16,2), Point(20,4)))
 
         val canvasPrint = canvas.toString()
 

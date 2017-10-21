@@ -21,10 +21,16 @@ class Canvas(val width: Int, val height: Int) {
     }
 
     fun draw(line: Line) {
-        (line.start.x .. line.end.x).forEach { canvas[line.start.y - 1][it - 1] = 'x' }
-        (line.start.y .. line.end.y).forEach { canvas[it - 1][line.start.x - 1] = 'x' }
+        reversingRange(line.start.x, line.end.x).forEach { canvas[line.start.y - 1][it - 1] = 'x' }
+        reversingRange(line.start.y, line.end.y).forEach { canvas[it - 1][line.start.x - 1] = 'x' }
+    }
+
+    fun draw(rectangle: Rectangle) {
+        rectangle.lines.forEach{ this.draw(it) }
     }
 }
+
+fun reversingRange(start: Int, end: Int) = if (start < end) (start .. end) else (start downTo end)
 
 fun array2dOfChar(x: Int, y: Int) = Array(y) { CharArray(x, {' '}) }
 fun CharArray.render(): String {return this.asSequence().map { it }.joinToString("")}
