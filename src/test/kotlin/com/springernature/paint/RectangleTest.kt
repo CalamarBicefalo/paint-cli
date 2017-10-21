@@ -86,4 +86,58 @@ class RectangleTest {
 
         assertThat(rectangle.contains(Point(100, 117))).isFalse()
     }
+
+    @Test
+    fun `line in rectangle - when inside rectangle - returns true`() {
+        val rectangle = Rectangle(Point(2, 5), Point(10, 10))
+
+        val lineInRectangle = rectangle.contains(Line(Point(3, 6), Point(7,7)))
+
+        assertThat(lineInRectangle).isTrue()
+    }
+
+    @Test
+    fun `line in rectangle - when start outside rectangle - returns false`() {
+        val rectangle = Rectangle(Point(2, 5), Point(10, 10))
+
+        val lineInRectangle = rectangle.contains(Line(Point(1, 6), Point(7,7)))
+
+        assertThat(lineInRectangle).isFalse()
+    }
+
+    @Test
+    fun `line in rectangle - when end outside rectangle - returns false`() {
+        val rectangle = Rectangle(Point(2, 5), Point(10, 10))
+
+        val lineInRectangle = rectangle.contains(Line(Point(3, 6), Point(17,7)))
+
+        assertThat(lineInRectangle).isFalse()
+    }
+
+    @Test
+    fun `rectangle in rectangle - when inside rectangle - returns true`() {
+        val rectangle = Rectangle(Point(2, 5), Point(10, 10))
+
+        val rectangleInRectangle = rectangle.contains(Rectangle(Point(3, 6), Point(7,7)))
+
+        assertThat(rectangleInRectangle).isTrue()
+    }
+
+    @Test
+    fun `rectangle in rectangle - when start outside rectangle - returns false`() {
+        val rectangle = Rectangle(Point(2, 5), Point(10, 10))
+
+        val rectangleInRectangle = rectangle.contains(Rectangle(Point(1, 6), Point(7,7)))
+
+        assertThat(rectangleInRectangle).isFalse()
+    }
+
+    @Test
+    fun `rectangle in rectangle - when end outside rectangle - returns false`() {
+        val rectangle = Rectangle(Point(2, 5), Point(10, 10))
+
+        val rectangleInRectangle = rectangle.contains(Rectangle(Point(3, 6), Point(17,7)))
+
+        assertThat(rectangleInRectangle).isFalse()
+    }
 }

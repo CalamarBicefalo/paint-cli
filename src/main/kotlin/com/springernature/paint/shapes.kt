@@ -46,6 +46,14 @@ class Rectangle(p1: Point, p2: Point) {
         return point.x in (start.x .. end.x) && point.y in (start.y .. end.y)
     }
 
+    operator fun contains(line: Line): Boolean {
+        return this.contains(line.p1) && this.contains(line.p2)
+    }
+
+    operator fun contains(rectangle: Rectangle): Boolean {
+        return this.contains(rectangle.start) && this.contains(rectangle.end)
+    }
+
     override fun toString(): String {
         return "Rectangle(start=$start, end=$end)"
     }

@@ -109,6 +109,11 @@ class CharCanvasTest {
         assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
 
+    @Test(expected = PaintException::class)
+    fun `canvas - when line out of canvas - throws PaintException`() {
+        canvas20x4.draw(Line(Point(16,2), Point(25,4)))
+    }
+
     @Test
     fun `canvas - when rectangle - prints canvas with rectangle`() {
         val expectedCanvas =
@@ -124,6 +129,11 @@ class CharCanvasTest {
         val canvasPrint = canvas20x4.render()
 
         assertThat(canvasPrint).isEqualTo(expectedCanvas)
+    }
+
+    @Test(expected = PaintException::class)
+    fun `canvas - when rectangle out of canvas - throws PaintException`() {
+        canvas20x4.draw(Rectangle(Point(16,2), Point(25,4)))
     }
 
     @Test
@@ -195,5 +205,11 @@ class CharCanvasTest {
         val canvasPrint = canvas20x4.render()
 
         assertThat(canvasPrint).isEqualTo(expectedCanvas)
+    }
+
+
+    @Test(expected = PaintException::class)
+    fun `canvas - when filling out of canvas - throws PaintException`() {
+        canvas20x4.draw(ColourFill(Point(16,23), 'e'))
     }
 }

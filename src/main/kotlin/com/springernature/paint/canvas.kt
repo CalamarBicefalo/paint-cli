@@ -1,7 +1,5 @@
 package com.springernature.paint
 
-import java.util.*
-
 
 /**
  * Blank space that supports drawing and rendering operations
@@ -15,28 +13,39 @@ interface Canvas : Drawable, Renderable
  */
 class CharCanvas(val width: Int, val height: Int) : Canvas {
     val canvas = array2dOfChar(width, height)
+    private val canvasRectangle = Rectangle(Point(1, 1), Point(width, height))
+
     private fun getColour(point: Point) = canvas[point.y - 1][point.x - 1]
     private fun setColour(point: Point, colour: Char) {
         canvas[point.y - 1][point.x - 1] = colour
     }
 
+
     /*
     DRAWABLE
      */
     override fun draw(line: Line) {
+        if (line !in canvasRectangle) {
+            throw ShapeOutOfCanvasException()
+        }
         reversingRange(line.p1.x, line.p2.x).forEach { setColour(Point(it, line.p1.y), 'x') }
         reversingRange(line.p1.y, line.p2.y).forEach { setColour(Point(line.p1.x, it), 'x') }
     }
 
     override fun draw(rectangle: Rectangle) {
+        if (rectangle !in canvasRectangle) {
+            throw ShapeOutOfCanvasException()
+        }
         rectangle.lines.forEach { this.draw(it) }
     }
 
     override fun draw(colourFill: ColourFill) {
-        fun inCanvas(point: Point) = point in Rectangle(Point(1, 1), Point(width, height))
+        if (colourFill.from !in canvasRectangle) {
+            throw ShapeOutOfCanvasException()
+        }
         fun draw(points: Iterable<Point>, newColour: Char, originalColour: Char) {
             points
-                    .filter { inCanvas(it) }
+                    .filter { it in canvasRectangle }
                     .filter { getColour(it) == originalColour }
                     .forEach {
                         setColour(it, newColour)
