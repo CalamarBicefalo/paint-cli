@@ -1,31 +1,131 @@
 package com.springernature.paint
 
+import kotlinx.coroutines.experimental.async
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import java.io.ByteArrayOutputStream
-import java.io.PrintStream
+import org.awaitility.Awaitility.*
+import org.junit.*
+import org.junit.contrib.java.lang.system.SystemOutRule
+import org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream
+import java.util.regex.Pattern
 
 
 class PaintE2eTest {
 
-    private val outContent = ByteArrayOutputStream()
+    @get:Rule
+     val systemOutRule = SystemOutRule().enableLog()
+
+    @get:Rule
+    val systemInMock = emptyStandardInputStream()
 
     @Before
     fun setUpStreams() {
-        System.setOut(PrintStream(outContent))
-    }
-
-    @After
-    fun cleanUpStreams() {
-        System.setOut(null)
+        clearOutput()
     }
 
     @Test
-    fun `paint - when starting the application - prompts users to enter command`() {
-        startPaint()
-        assertThat(outContent.toString()).isEqualTo("Enter command: ")
+    fun `paint - user drawing journey`() {
+        async {
+            startPaint()
+        }
+
+        assertOutput("Enter command: ")
+
+        sendCommand("C 10 6")
+        assertCanvas("""
+                        ------------
+                        |          |
+                        |          |
+                        |          |
+                        |          |
+                        |          |
+                        |          |
+                        ------------
+                        """)
+
+        sendCommand("L 2 3 6 3")
+        assertCanvas("""
+                        ------------
+                        |          |
+                        |          |
+                        | xxxxx    |
+                        |          |
+                        |          |
+                        |          |
+                        ------------
+                        """)
+
+        sendCommand("R 3 4 10 6")
+        assertCanvas("""
+                        ------------
+                        |          |
+                        |          |
+                        | xxxxx    |
+                        |  xxxxxxxx|
+                        |  x      x|
+                        |  xxxxxxxx|
+                        ------------
+                        """)
+
+        sendCommand("B 1 1 t")
+        assertCanvas("""
+                       ------------
+                       |tttttttttt|
+                       |tttttttttt|
+                       |txxxxxtttt|
+                       |ttxxxxxxxx|
+                       |ttx      x|
+                       |ttxxxxxxxx|
+                       ------------
+                        """)
+
+        sendCommand("B 4 5 p")
+        assertCanvas("""
+                       ------------
+                       |tttttttttt|
+                       |tttttttttt|
+                       |txxxxxtttt|
+                       |ttxxxxxxxx|
+                       |ttxppppppx|
+                       |ttxxxxxxxx|
+                       ------------
+                        """)
+
+        sendCommand("B 3 4 u")
+        assertCanvas("""
+                       ------------
+                       |tttttttttt|
+                       |tttttttttt|
+                       |tuuuuutttt|
+                       |ttuuuuuuuu|
+                       |ttuppppppu|
+                       |ttuuuuuuuu|
+                       ------------
+                        """)
+
+        sendCommand("Q")
+        assertOutput("Thanks for drawing!\n")
     }
+
+    private fun assertOutput(content: String) {
+        await().untilAsserted { assertThat(readOutput()).isEqualTo(content) }
+        clearOutput()
+    }
+
+    private fun assertCanvas(canvas: String){
+        val trimSpaces = Pattern.compile("^(\\s)+", Pattern.MULTILINE).toRegex()
+        assertOutput(canvas
+                .trim()
+                .replace(trimSpaces,"")
+                + "\n\nEnter command: ")
+    }
+
+    private fun readOutput(): String? {
+        return systemOutRule.log
+    }
+
+    fun sendCommand(command: String) {
+        systemInMock.provideLines(command)
+    }
+    fun clearOutput() = systemOutRule.clearLog()
 
 }
