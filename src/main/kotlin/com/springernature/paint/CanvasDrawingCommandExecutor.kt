@@ -10,23 +10,42 @@ class CanvasDrawingCommandExecutor(val canvas: Canvas) {
         fun create(command: String): CanvasDrawingCommandExecutor {
             return CanvasDrawingCommandExecutor(
                     CharCanvas(
-                            extractInt(getParts(command),1),
-                            extractInt(getParts(command),2)
+                            extractInt(getPartsValidating(command), 1),
+                            extractInt(getPartsValidating(command), 2)
                     )
             )
         }
+
         private fun extractCommand(from: List<String>) = from[0]
         private fun extractInt(from: List<String>, index: Int) = from[index].toInt()
         private fun getParts(command: String) = command.split(" ")
+        private fun getPartsValidating(command: String): List<String> {
+            validateCommand(command)
+            return getParts(command)
+        }
+        private fun validateCommand(command: String) {
+            val pointRegex = "\\s\\d+\\s\\d+"
+            val createRegex = Regex("^C$pointRegex$")
+            val lineRegex = Regex("^L$pointRegex$pointRegex$")
+            val rectangleRegex = Regex("^R$pointRegex$pointRegex$")
+            val fillRegex = Regex("^B$pointRegex\\s.$")
+            val quitRegex = Regex("^Q$")
+
+            val validCommands = listOf(
+                    createRegex, lineRegex, rectangleRegex, fillRegex, quitRegex
+            )
+            if (validCommands.firstOrNull { command.matches(it) } == null)
+                throw InvalidCommandException()
+        }
 
     }
 
     fun execute(command: String): CanvasDrawingCommandExecutor {
-        val parts = getParts(command)
+        val parts = getPartsValidating(command)
 
         when (extractCommand(parts)) {
-            "L" -> canvas.draw(Line(extractPoint(parts), extractPoint(parts,1)))
-            "R" -> canvas.draw(Rectangle(extractPoint(parts), extractPoint(parts,1)))
+            "L" -> canvas.draw(Line(extractPoint(parts), extractPoint(parts, 1)))
+            "R" -> canvas.draw(Rectangle(extractPoint(parts), extractPoint(parts, 1)))
             "B" -> canvas.draw(ColourFill(extractPoint(parts), extractColour(parts)))
         }
         return this

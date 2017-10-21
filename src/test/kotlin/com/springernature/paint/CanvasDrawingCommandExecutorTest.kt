@@ -72,4 +72,14 @@ class CanvasDrawingCommandExecutorTest {
 
         assertThat(executor.canvas).isEqualTo(CharCanvas(12,4))
     }
+
+    @Test(expected = InvalidCommandException::class)
+    fun `create - when invalid command - throw exception`() {
+        CanvasDrawingCommandExecutor.create("C 12a 4")
+    }
+
+    @Test(expected = InvalidCommandException::class)
+    fun `execute - when invalid command - throw exception`() {
+        subject.execute("C 12a 4")
+    }
 }
