@@ -3,7 +3,7 @@ package com.springernature.paint
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class CanvasTest {
+class CharCanvasTest {
 
     @Test
     fun `canvas - when empty - prints empty canvas`() {
@@ -15,9 +15,9 @@ class CanvasTest {
                    #|   |
                    #-----
                    #""".trimMargin("#")
-        val canvas = Canvas(3, 4)
+        val canvas = CharCanvas(3, 4)
 
-        val canvasPrint = canvas.toString()
+        val canvasPrint = canvas.render()
 
         assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
@@ -32,10 +32,10 @@ class CanvasTest {
                    #|                    |
                    #----------------------
                    #""".trimMargin("#")
-        val canvas = Canvas(20, 4)
+        val canvas = CharCanvas(20, 4)
         canvas.draw(Line(Point(1,2), Point(6,2)))
 
-        val canvasPrint = canvas.toString()
+        val canvasPrint = canvas.render()
 
         assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
@@ -50,10 +50,10 @@ class CanvasTest {
                    #|                    |
                    #----------------------
                    #""".trimMargin("#")
-        val canvas = Canvas(20, 4)
+        val canvas = CharCanvas(20, 4)
         canvas.draw(Line(Point(6,2), Point(1,2)))
 
-        val canvasPrint = canvas.toString()
+        val canvasPrint = canvas.render()
 
         assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
@@ -68,10 +68,10 @@ class CanvasTest {
                    #|     x              |
                    #----------------------
                    #""".trimMargin("#")
-        val canvas = Canvas(20, 4)
+        val canvas = CharCanvas(20, 4)
         canvas.draw(Line(Point(6,3), Point(6,4)))
 
-        val canvasPrint = canvas.toString()
+        val canvasPrint = canvas.render()
 
         assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
@@ -86,10 +86,10 @@ class CanvasTest {
                    #|     x              |
                    #----------------------
                    #""".trimMargin("#")
-        val canvas = Canvas(20, 4)
+        val canvas = CharCanvas(20, 4)
         canvas.draw(Line(Point(6,4), Point(6,3)))
 
-        val canvasPrint = canvas.toString()
+        val canvasPrint = canvas.render()
 
         assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
@@ -104,11 +104,11 @@ class CanvasTest {
                    #|     x              |
                    #----------------------
                    #""".trimMargin("#")
-        val canvas = Canvas(20, 4)
+        val canvas = CharCanvas(20, 4)
         canvas.draw(Line(Point(1,2), Point(6,2)))
         canvas.draw(Line(Point(6,1), Point(6,4)))
 
-        val canvasPrint = canvas.toString()
+        val canvasPrint = canvas.render()
 
         assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
@@ -123,10 +123,10 @@ class CanvasTest {
                    #|               xxxxx|
                    #----------------------
                    #""".trimMargin("#")
-        val canvas = Canvas(20, 4)
+        val canvas = CharCanvas(20, 4)
         canvas.draw(Rectangle(Point(16,2), Point(20,4)))
 
-        val canvasPrint = canvas.toString()
+        val canvasPrint = canvas.render()
 
         assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
