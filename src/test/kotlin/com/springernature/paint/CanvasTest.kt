@@ -16,7 +16,10 @@ class CanvasTest {
                    #-----
                    #""".trimMargin("#")
         val canvas = Canvas(3, 4)
-        assertThat(canvas.toString()).isEqualTo(expectedCanvas)
+
+        val canvasPrint = canvas.toString()
+
+        assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
 
     @Test
@@ -31,7 +34,10 @@ class CanvasTest {
                    #""".trimMargin("#")
         val canvas = Canvas(20, 4)
         canvas.draw(Line(Point(1,2), Point(6,2)))
-        assertThat(canvas.toString()).isEqualTo(expectedCanvas)
+
+        val canvasPrint = canvas.toString()
+
+        assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
 
     @Test
@@ -46,7 +52,10 @@ class CanvasTest {
                    #""".trimMargin("#")
         val canvas = Canvas(20, 4)
         canvas.draw(Line(Point(6,3), Point(6,4)))
-        assertThat(canvas.toString()).isEqualTo(expectedCanvas)
+
+        val canvasPrint = canvas.toString()
+
+        assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
 
     @Test
@@ -62,6 +71,9 @@ class CanvasTest {
         val canvas = Canvas(20, 4)
         canvas.draw(Line(Point(1,2), Point(6,2)))
         canvas.draw(Line(Point(6,1), Point(6,4)))
-        assertThat(canvas.toString()).isEqualTo(expectedCanvas)
+
+        val canvasPrint = canvas.toString()
+
+        assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
 }
