@@ -33,4 +33,35 @@ class CanvasTest {
         canvas.draw(Line(Point(1,2), Point(6,2)))
         assertThat(canvas.toString()).isEqualTo(expectedCanvas)
     }
+
+    @Test
+    fun `canvas - when vertical line drawn - prints canvas with line`() {
+        val expectedCanvas =
+                """#----------------------
+                   #|                    |
+                   #|                    |
+                   #|     x              |
+                   #|     x              |
+                   #----------------------
+                   #""".trimMargin("#")
+        val canvas = Canvas(20, 4)
+        canvas.draw(Line(Point(6,3), Point(6,4)))
+        assertThat(canvas.toString()).isEqualTo(expectedCanvas)
+    }
+
+    @Test
+    fun `canvas - when several lines - prints canvas with lines`() {
+        val expectedCanvas =
+                """#----------------------
+                   #|     x              |
+                   #|xxxxxx              |
+                   #|     x              |
+                   #|     x              |
+                   #----------------------
+                   #""".trimMargin("#")
+        val canvas = Canvas(20, 4)
+        canvas.draw(Line(Point(1,2), Point(6,2)))
+        canvas.draw(Line(Point(6,1), Point(6,4)))
+        assertThat(canvas.toString()).isEqualTo(expectedCanvas)
+    }
 }

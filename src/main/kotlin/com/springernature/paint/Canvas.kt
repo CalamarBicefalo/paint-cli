@@ -22,6 +22,7 @@ class Canvas(val width: Int, val height: Int) {
 
     fun draw(line: Line) {
         (line.start.x .. line.end.x).forEach { canvas[line.start.y - 1][it - 1] = 'x' }
+        (line.start.y .. line.end.y).forEach { canvas[it - 1][line.start.x - 1] = 'x' }
     }
 }
 
