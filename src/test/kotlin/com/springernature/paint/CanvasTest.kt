@@ -6,7 +6,7 @@ import org.junit.Test
 class CanvasTest {
 
     @Test
-    fun `canvas - when empty - prints empty canas`() {
+    fun `canvas - when empty - prints empty canvas`() {
         val expectedCanvas =
                 """#-----
                    #|   |
