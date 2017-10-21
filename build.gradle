@@ -1,5 +1,4 @@
 group 'com.springernature'
-version '1.0-SNAPSHOT'
 
 buildscript {
     ext {
@@ -37,4 +36,11 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+jar {
+    baseName = "paint"
+    manifest {
+        attributes 'Main-Class': 'com.springernature.paint.Paint'
+    }
 }

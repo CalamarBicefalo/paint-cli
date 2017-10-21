@@ -7,6 +7,22 @@ package com.springernature.paint
 interface Canvas : Drawable, Renderable
 
 /**
+ * Drawing operations based on geometric shapes
+ */
+interface Drawable {
+    fun draw(line: Line)
+    fun draw(rectangle: Rectangle)
+    fun draw(colourFill: ColourFill)
+}
+
+/**
+ * Rendering operations returning Strings as a result
+ */
+interface Renderable {
+    fun render(): String
+}
+
+/**
  * Char based implementation of a canvas.
  *
  * Holds state in a 2d Array of chars.
@@ -103,21 +119,6 @@ class CharCanvas(val width: Int, val height: Int) : Canvas {
     }
 }
 
-/**
- * Drawing operations based on geometric shapes
- */
-interface Drawable {
-    fun draw(line: Line)
-    fun draw(rectangle: Rectangle)
-    fun draw(colourFill: ColourFill)
-}
-
-/**
- * Rendering operations returning Strings as a result
- */
-interface Renderable {
-    fun render(): String
-}
 
 fun reversingRange(start: Int, end: Int) = if (start < end) (start..end) else (start downTo end)
 fun array2dOfChar(x: Int, y: Int) = Array(y) { CharArray(x, { ' ' }) }

@@ -1,7 +1,9 @@
+@file:JvmName("Paint")
 package com.springernature.paint
 
 import com.springernature.paint.CanvasDrawingCommandExecutor.Companion.isCreateCommand
 import com.springernature.paint.CanvasDrawingCommandExecutor.Companion.isQuitCommand
+
 
 fun main(args: Array<String>) {
     startPaint()
@@ -11,7 +13,7 @@ fun startPaint() {
     var commandExecutor: CanvasDrawingCommandExecutor? = null
     print("Enter command: ")
     while (true) {
-        val command: String = readLine() ?: continue
+        val command: String = readLine()?.trim() ?: continue
         try {
             if (isCreateCommand(command)) {
                 commandExecutor = CanvasDrawingCommandExecutor.create(command)
@@ -21,11 +23,12 @@ fun startPaint() {
                 println("Thanks for drawing!")
                 break
             } else {
-                println(commandExecutor?.execute(command)?.canvas?.render() ?: println("Please, create a canvas first"))
+                println(commandExecutor?.execute(command)?.canvas?.render() ?: "Please, create a canvas first")
                 print("Enter command: ")
             }
         } catch (e: PaintException) {
             println(e.message)
+            print("Enter command: ")
         }
     }
 

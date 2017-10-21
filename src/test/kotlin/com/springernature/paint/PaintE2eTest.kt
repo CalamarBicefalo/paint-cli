@@ -55,7 +55,7 @@ class PaintE2eTest {
                         """)
 
         sendCommand("L 2 3 16 3")
-        assertOutput("Shape out of canvas\n")
+        assertOutput("Shape out of canvas\nEnter command: ")
 
 
         sendCommand("R 3 4 10 6")
