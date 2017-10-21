@@ -45,6 +45,32 @@ class Rectangle(p1: Point, p2: Point) {
     operator fun contains(point: Point): Boolean {
         return point.x in (start.x .. end.x) && point.y in (start.y .. end.y)
     }
+
+    override fun toString(): String {
+        return "Rectangle(start=$start, end=$end)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Rectangle
+
+        if (start != other.start) return false
+        if (end != other.end) return false
+        if (lines != other.lines) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = start.hashCode()
+        result = 31 * result + end.hashCode()
+        result = 31 * result + lines.hashCode()
+        return result
+    }
+
+
 }
 
 data class ColourFill(val from: Point, val colour: Char)
