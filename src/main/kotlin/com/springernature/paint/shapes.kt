@@ -1,6 +1,8 @@
 package com.springernature.paint
 
-data class Line(val p1: Point, val p2: Point)
+data class Line(val p1: Point, val p2: Point) {
+    fun isOblique() = p1.x != p2.x && p1.y != p2.y
+}
 
 data class Point(val x: Int, val y: Int): Comparable<Point>{
     override fun compareTo(other: Point): Int {

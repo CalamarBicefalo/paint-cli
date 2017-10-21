@@ -91,6 +91,11 @@ class CharCanvasTest {
         assertThat(canvasPrint).isEqualTo(expectedCanvas)
     }
 
+    @Test(expected = UnsupportedShapeException::class)
+    fun `canvas - when oblique line drawn - throws unssuported shape exception`() {
+        canvas20x4.draw(Line(Point(1,1), Point(8,4)))
+    }
+
     @Test
     fun `canvas - when several lines - prints canvas with lines`() {
         val expectedCanvas =

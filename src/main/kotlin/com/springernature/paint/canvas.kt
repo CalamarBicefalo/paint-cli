@@ -28,6 +28,9 @@ class CharCanvas(val width: Int, val height: Int) : Canvas {
         if (line !in canvasRectangle) {
             throw ShapeOutOfCanvasException()
         }
+        if (line.isOblique()) {
+            throw UnsupportedShapeException()
+        }
         reversingRange(line.p1.x, line.p2.x).forEach { setColour(Point(it, line.p1.y), 'x') }
         reversingRange(line.p1.y, line.p2.y).forEach { setColour(Point(line.p1.x, it), 'x') }
     }
