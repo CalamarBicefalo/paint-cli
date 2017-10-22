@@ -1,5 +1,30 @@
 package com.springernature.paint
 
+fun startPaint() {
+    var commandExecutor: CanvasDrawingCommandExecutor? = null
+    print("Enter command: ")
+    while (true) {
+        val command: String = readLine()?.trim() ?: continue
+        try {
+            if (CanvasDrawingCommandExecutor.isCreateCommand(command)) {
+                commandExecutor = CanvasDrawingCommandExecutor.create(command)
+                println(commandExecutor.canvas.render())
+                print("Enter command: ")
+            } else if (CanvasDrawingCommandExecutor.isQuitCommand(command)) {
+                println("Thanks for drawing!")
+                break
+            } else {
+                println(commandExecutor?.execute(command)?.canvas?.render() ?: "Please, create a canvas first")
+                print("Enter command: ")
+            }
+        } catch (e: PaintException) {
+            println(e.message)
+            print("Enter command: ")
+        }
+    }
+
+}
+
 class CanvasDrawingCommandExecutor(val canvas: Canvas) {
 
     companion object {

@@ -47,5 +47,7 @@ dependencies:
   and one class per operation, taking a Canvas as an argument. This is something I would typically discuss with a colleague while pairing.
 - The exercise was good fun, although it took me around 6 hours to get completed properly.
 - Most classes implement in a way or another equals / hashCode / toString to facilitate Testing and future PROD logging
+- The canvas mutates! A better implementation should use pure functions and an immutable canvas
+  but since concurrency is not a concern for the first iteration mutability is acceptable.
 
 Have fun artist!
