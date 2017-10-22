@@ -1,7 +1,6 @@
 package com.springernature.paint
 
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class PointTest {
@@ -23,6 +22,16 @@ class PointTest {
                 Point(4,5)
         )
     }
+
+    @Test
+    fun `getPoints - returns point`() {
+        val point = Point(3, 4)
+
+        val points = point.getPoints()
+
+        assertThat(points).containsExactlyInAnyOrder(Point(3,4))
+    }
+
 
     @Test
     fun `comparing - when both bigger - returns bigger`() {

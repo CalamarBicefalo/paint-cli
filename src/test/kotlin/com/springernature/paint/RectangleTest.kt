@@ -91,7 +91,7 @@ class RectangleTest {
     fun `line in rectangle - when inside rectangle - returns true`() {
         val rectangle = Rectangle(Point(2, 5), Point(10, 10))
 
-        val lineInRectangle = rectangle.contains(Line(Point(3, 6), Point(7,7)))
+        val lineInRectangle = rectangle.contains(Line(Point(3, 6), Point(7,6)))
 
         assertThat(lineInRectangle).isTrue()
     }
@@ -100,7 +100,7 @@ class RectangleTest {
     fun `line in rectangle - when start outside rectangle - returns false`() {
         val rectangle = Rectangle(Point(2, 5), Point(10, 10))
 
-        val lineInRectangle = rectangle.contains(Line(Point(1, 6), Point(7,7)))
+        val lineInRectangle = rectangle.contains(Line(Point(1, 6), Point(7,6)))
 
         assertThat(lineInRectangle).isFalse()
     }
@@ -109,7 +109,7 @@ class RectangleTest {
     fun `line in rectangle - when end outside rectangle - returns false`() {
         val rectangle = Rectangle(Point(2, 5), Point(10, 10))
 
-        val lineInRectangle = rectangle.contains(Line(Point(3, 6), Point(17,7)))
+        val lineInRectangle = rectangle.contains(Line(Point(3, 6), Point(17,6)))
 
         assertThat(lineInRectangle).isFalse()
     }
@@ -139,5 +139,27 @@ class RectangleTest {
         val rectangleInRectangle = rectangle.contains(Rectangle(Point(3, 6), Point(17,7)))
 
         assertThat(rectangleInRectangle).isFalse()
+    }
+
+    @Test
+    fun `getPoints - returns rectangle points`() {
+        val rectangle = Rectangle(Point(2, 5), Point(4, 7))
+
+        val points = rectangle.getPoints()
+
+        assertThat(points).containsExactlyInAnyOrder(
+                Point(2,5),Point(3,5),Point(4,5),
+                Point(2,7),Point(3,7),Point(4,7),
+                Point(2,6),Point(4,6)
+                )
+    }
+
+    @Test
+    fun `getPoints - when single point rectangle- returns rectangle point`() {
+        val rectangle = Rectangle(Point(2, 5), Point(2,5))
+
+        val points = rectangle.getPoints()
+
+        assertThat(points).containsExactlyInAnyOrder(Point(2,5))
     }
 }

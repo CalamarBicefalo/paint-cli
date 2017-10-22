@@ -7,16 +7,15 @@ package com.springernature.paint
 interface Canvas : Drawable, Renderable
 
 /**
- * Drawing operations based on geometric shapes
+ * Drawing operations based on geometric shapes and operations
  */
 interface Drawable {
-    fun draw(line: Line)
-    fun draw(rectangle: Rectangle)
+    fun draw(shape: Shape)
     fun draw(colourFill: ColourFill)
 }
 
 /**
- * Rendering operations returning Strings as a result
+ * Rendering operations returning Strings as a result (simplest solution that works)
  */
 interface Renderable {
     fun render(): String
@@ -29,6 +28,7 @@ interface Renderable {
  */
 class CharCanvas(val width: Int, val height: Int) : Canvas {
     val canvas = array2dOfChar(width, height)
+    // The rectangle is used for convenience as it has some logical operations that are necessary for validation
     private val canvasRectangle = Rectangle(Point(1, 1), Point(width, height))
 
     private fun getColour(point: Point) = canvas[point.y - 1][point.x - 1]
@@ -40,24 +40,16 @@ class CharCanvas(val width: Int, val height: Int) : Canvas {
     /*
     DRAWABLE
      */
-    override fun draw(line: Line) {
-        if (line !in canvasRectangle) {
+    override fun draw(shape: Shape){
+        if (shape !in canvasRectangle) {
             throw ShapeOutOfCanvasException()
         }
-        if (line.isOblique()) {
-            throw UnsupportedShapeException()
-        }
-        reversingRange(line.p1.x, line.p2.x).forEach { setColour(Point(it, line.p1.y), 'x') }
-        reversingRange(line.p1.y, line.p2.y).forEach { setColour(Point(line.p1.x, it), 'x') }
+        shape.getPoints().forEach { setColour(it, 'x') }
     }
 
-    override fun draw(rectangle: Rectangle) {
-        if (rectangle !in canvasRectangle) {
-            throw ShapeOutOfCanvasException()
-        }
-        rectangle.lines.forEach { this.draw(it) }
-    }
-
+    // This certainly deserves an abstraction of its own, but the best moment to do so would be once we had
+    // another 'operation' to implement so we can refactor it with confidence that the abstraction works
+    // Once the abstraction is clear, we should refactor this logic back into its domain representation i.e. ColourFill
     override fun draw(colourFill: ColourFill) {
         if (colourFill.from !in canvasRectangle) {
             throw ShapeOutOfCanvasException()
@@ -120,7 +112,6 @@ class CharCanvas(val width: Int, val height: Int) : Canvas {
 }
 
 
-fun reversingRange(start: Int, end: Int) = if (start < end) (start..end) else (start downTo end)
 fun array2dOfChar(x: Int, y: Int) = Array(y) { CharArray(x, { ' ' }) }
 fun CharArray.render(): String {
     return this.asSequence().map { it }.joinToString("")
