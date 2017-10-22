@@ -1,6 +1,5 @@
 package com.springernature.paint
 
-
 /**
  * Blank space that supports drawing and rendering operations
  */
@@ -36,11 +35,10 @@ class CharCanvas(val width: Int, val height: Int) : Canvas {
         canvas[point.y - 1][point.x - 1] = colour
     }
 
-
     /*
     DRAWABLE
      */
-    override fun draw(shape: Shape){
+    override fun draw(shape: Shape) {
         if (shape !in canvasRectangle) {
             throw ShapeOutOfCanvasException()
         }
@@ -70,8 +68,18 @@ class CharCanvas(val width: Int, val height: Int) : Canvas {
 
     /*
     RENDERABLE
+
+    As discussed in the README this could be an abstraction of its own e.g. CanvasRenderer. Abstracting it now
+    however is not a good idea as there are no other Renderer requirements and we could create the abstraction using
+    a suboptimal design. This should be done once a second Renderer is specified.
      */
     override fun render(): String {
+        fun drawHorizontalDivider(): String {
+            var horizontal = "-".repeat(width + 2)
+            horizontal += "\n"
+            return horizontal
+        }
+
         var output = ""
         val horizontal = drawHorizontalDivider()
         output += horizontal
@@ -80,12 +88,6 @@ class CharCanvas(val width: Int, val height: Int) : Canvas {
         }
         output += horizontal
         return output
-    }
-
-    private fun drawHorizontalDivider(): String {
-        var horizontal = "-".repeat(width + 2)
-        horizontal += "\n"
-        return horizontal
     }
 
     override fun toString(): String {
@@ -110,7 +112,6 @@ class CharCanvas(val width: Int, val height: Int) : Canvas {
         return result
     }
 }
-
 
 fun array2dOfChar(x: Int, y: Int) = Array(y) { CharArray(x, { ' ' }) }
 fun CharArray.render(): String {

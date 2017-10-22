@@ -48,6 +48,7 @@ class CanvasDrawingCommandExecutor(val canvas: Canvas) {
             validateCommand(command)
             return getParts(command)
         }
+
         private fun validateCommand(command: String) {
             val pointRegex = "\\s\\d+\\s\\d+"
             val createRegex = Regex("^C$pointRegex$")
