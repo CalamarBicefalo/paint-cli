@@ -1,6 +1,6 @@
-#Paint
+# CLI Paint
 
-Paint is a CLI drawing tool for artists who become creative when they have limited resources available.
+Paint is a CLI drawing tool for artists who become creative when they have limited resources available. It is also a silly app that was fun to code.
 
 ## Getting started
 
