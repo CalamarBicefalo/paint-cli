@@ -1,4 +1,4 @@
-package com.springernature.paint
+package clipaint
 
 import kotlinx.coroutines.experimental.async
 import org.assertj.core.api.Assertions.assertThat
@@ -103,6 +103,18 @@ class PaintE2eTest {
                        |ttuppppppu|
                        |ttuuuuuuuu|
                        ------------
+                        """)
+
+        sendCommand("C")
+        assertCanvas("""
+                        ------------
+                        |          |
+                        |          |
+                        |          |
+                        |          |
+                        |          |
+                        |          |
+                        ------------
                         """)
 
         sendCommand("Q")

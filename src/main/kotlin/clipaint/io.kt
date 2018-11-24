@@ -1,4 +1,4 @@
-package com.springernature.paint
+package clipaint
 
 fun startPaint() {
     var commandExecutor: CanvasDrawingCommandExecutor? = null
@@ -29,13 +29,18 @@ class CanvasDrawingCommandExecutor(val canvas: Canvas) {
 
     companion object {
 
+        private val CLEAR = "C"
         private val CREATE = "C"
         private val QUIT = "Q"
         private val LINE = "L"
         private val RECTANGLE = "R"
         private val FILL_BUCKET = "B"
 
-        fun isCreateCommand(command: String) = extractCommand(getParts(command)) == CREATE
+        fun isCreateCommand(command: String): Boolean {
+            val createCommand = extractCommand(getParts(command)) == CREATE
+            val hasCanvasSize = getParts(command).size > 1
+            return createCommand && hasCanvasSize
+        }
 
         fun isQuitCommand(command: String) = extractCommand(getParts(command)) == QUIT
 
@@ -58,6 +63,7 @@ class CanvasDrawingCommandExecutor(val canvas: Canvas) {
 
         private fun validateCommand(command: String) {
             val pointRegex = "\\s\\d+\\s\\d+"
+            val clearRegex = Regex("^$CLEAR")
             val createRegex = Regex("^$CREATE$pointRegex$")
             val lineRegex = Regex("^$LINE$pointRegex$pointRegex$")
             val rectangleRegex = Regex("^$RECTANGLE$pointRegex$pointRegex$")
@@ -65,7 +71,7 @@ class CanvasDrawingCommandExecutor(val canvas: Canvas) {
             val quitRegex = Regex("^$QUIT$")
 
             val validCommands = listOf(
-                    createRegex, lineRegex, rectangleRegex, fillRegex, quitRegex
+                    createRegex, lineRegex, rectangleRegex, fillRegex, quitRegex, clearRegex
             )
             if (validCommands.firstOrNull { command.matches(it) } == null)
                 throw InvalidCommandException()
@@ -80,6 +86,7 @@ class CanvasDrawingCommandExecutor(val canvas: Canvas) {
             LINE -> canvas.draw(Line(extractPoint(parts), extractPoint(parts, 1)))
             RECTANGLE -> canvas.draw(Rectangle(extractPoint(parts), extractPoint(parts, 1)))
             FILL_BUCKET -> canvas.draw(ColourFill(extractPoint(parts), extractColour(parts)))
+            CLEAR -> canvas.clear()
         }
         return this // for fluent APIs could use kotlin functional helpers too e.g. .let / .apply ... but I like fluent APIs
     }

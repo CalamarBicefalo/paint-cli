@@ -1,4 +1,4 @@
-package com.springernature.paint
+package clipaint
 
 /**
  * Blank space that supports drawing and rendering operations
@@ -11,6 +11,7 @@ interface Canvas : Drawable, Renderable
 interface Drawable {
     fun draw(shape: Shape)
     fun draw(colourFill: ColourFill)
+    fun clear()
 }
 
 /**
@@ -52,6 +53,9 @@ class CharCanvas(val width: Int, val height: Int) : Canvas {
         if (colourFill.from !in canvasRectangle) {
             throw ShapeOutOfCanvasException()
         }
+        if(alreadyColoured(colourFill)) {
+            return
+        }
         fun draw(points: Iterable<Point>, newColour: Char, originalColour: Char) {
             points
                     .filter { it in canvasRectangle }
@@ -65,6 +69,15 @@ class CharCanvas(val width: Int, val height: Int) : Canvas {
         draw(colourFill.from.neighbours(), colourFill.colour, getColour(colourFill.from))
         setColour(colourFill.from, colourFill.colour)
     }
+
+    override fun clear() {
+        canvas.forEach { row ->
+            (0 until row.size).forEach { row[it] = ' ' }
+        }
+    }
+
+    private fun alreadyColoured(colourFill: ColourFill) =
+            getColour(colourFill.from) == colourFill.colour
 
     /*
     RENDERABLE

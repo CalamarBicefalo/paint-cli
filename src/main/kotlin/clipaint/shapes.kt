@@ -1,4 +1,4 @@
-package com.springernature.paint
+package clipaint
 
 interface Shape {
     fun getPoints(): Iterable<Point>

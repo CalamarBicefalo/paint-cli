@@ -1,4 +1,4 @@
-package com.springernature.paint
+package clipaint
 
 import org.assertj.core.api.AbstractCharSequenceAssert
 import org.assertj.core.api.Assertions.assertThat
@@ -39,7 +39,7 @@ class CharCanvasTest {
                    |                    |
                    ----------------------
                 """
-        canvas20x4.draw(Line(Point(1,2), Point(6,2)))
+        canvas20x4.draw(Line(Point(1, 2), Point(6, 2)))
 
         val canvasPrint = canvas20x4.render()
 
@@ -57,7 +57,7 @@ class CharCanvasTest {
                    |                    |
                    ----------------------
                 """
-        canvas20x4.draw(Line(Point(6,2), Point(1,2)))
+        canvas20x4.draw(Line(Point(6, 2), Point(1, 2)))
 
         val canvasPrint = canvas20x4.render()
 
@@ -75,7 +75,7 @@ class CharCanvasTest {
                    |     x              |
                    ----------------------
                 """
-        canvas20x4.draw(Line(Point(6,3), Point(6,4)))
+        canvas20x4.draw(Line(Point(6, 3), Point(6, 4)))
 
         val canvasPrint = canvas20x4.render()
 
@@ -93,7 +93,7 @@ class CharCanvasTest {
                    |     x              |
                    ----------------------
                 """
-        canvas20x4.draw(Line(Point(6,4), Point(6,3)))
+        canvas20x4.draw(Line(Point(6, 4), Point(6, 3)))
 
         val canvasPrint = canvas20x4.render()
 
@@ -102,7 +102,7 @@ class CharCanvasTest {
 
     @Test(expected = UnsupportedShapeException::class)
     fun `canvas - when oblique line drawn - throws unssuported shape exception`() {
-        canvas20x4.draw(Line(Point(1,1), Point(8,4)))
+        canvas20x4.draw(Line(Point(1, 1), Point(8, 4)))
     }
 
     @Test
@@ -116,8 +116,8 @@ class CharCanvasTest {
                    |     x              |
                    ----------------------
                 """
-        canvas20x4.draw(Line(Point(1,2), Point(6,2)))
-        canvas20x4.draw(Line(Point(6,1), Point(6,4)))
+        canvas20x4.draw(Line(Point(1, 2), Point(6, 2)))
+        canvas20x4.draw(Line(Point(6, 1), Point(6, 4)))
 
         val canvasPrint = canvas20x4.render()
 
@@ -126,7 +126,7 @@ class CharCanvasTest {
 
     @Test(expected = PaintException::class)
     fun `canvas - when line out of canvas - throws PaintException`() {
-        canvas20x4.draw(Line(Point(16,2), Point(25,4)))
+        canvas20x4.draw(Line(Point(16, 2), Point(25, 4)))
     }
 
     @Test
@@ -140,7 +140,7 @@ class CharCanvasTest {
                    |               xxxxx|
                    ----------------------
                 """
-        canvas20x4.draw(Rectangle(Point(16,2), Point(20,4)))
+        canvas20x4.draw(Rectangle(Point(16, 2), Point(20, 4)))
 
         val canvasPrint = canvas20x4.render()
 
@@ -149,7 +149,7 @@ class CharCanvasTest {
 
     @Test(expected = PaintException::class)
     fun `canvas - when rectangle out of canvas - throws PaintException`() {
-        canvas20x4.draw(Rectangle(Point(16,2), Point(25,4)))
+        canvas20x4.draw(Rectangle(Point(16, 2), Point(25, 4)))
     }
 
     @Test
@@ -163,7 +163,26 @@ class CharCanvasTest {
                    |oooooooooooooooooooo|
                    ----------------------
                 """
-        canvas20x4.draw(ColourFill(Point(16,2), 'o'))
+        canvas20x4.draw(ColourFill(Point(16, 2), 'o'))
+
+        val canvasPrint = canvas20x4.render()
+
+        assertThat(canvasPrint).isEqualToCanvas(expectedCanvas)
+    }
+
+    @Test
+    fun `canvas - when filling with same colour - keeps canvas unmodified`() {
+        val expectedCanvas =
+                """
+                   ----------------------
+                   |oooooooooooooooooooo|
+                   |oooooooooooooooooooo|
+                   |oooooooooooooooooooo|
+                   |oooooooooooooooooooo|
+                   ----------------------
+                """
+        canvas20x4.draw(ColourFill(Point(16, 2), 'o'))
+        canvas20x4.draw(ColourFill(Point(16, 2), 'o'))
 
         val canvasPrint = canvas20x4.render()
 
@@ -181,8 +200,8 @@ class CharCanvasTest {
                    |               xxxxx|
                    ----------------------
                 """
-        canvas20x4.draw(Rectangle(Point(16,2), Point(20,4)))
-        canvas20x4.draw(ColourFill(Point(17,3), 't'))
+        canvas20x4.draw(Rectangle(Point(16, 2), Point(20, 4)))
+        canvas20x4.draw(ColourFill(Point(17, 3), 't'))
 
         val canvasPrint = canvas20x4.render()
 
@@ -200,8 +219,8 @@ class CharCanvasTest {
                    |iiiiiiiiiiiiiiixxxxx|
                    ----------------------
                 """
-        canvas20x4.draw(Rectangle(Point(16,2), Point(20,4)))
-        canvas20x4.draw(ColourFill(Point(4,3), 'i'))
+        canvas20x4.draw(Rectangle(Point(16, 2), Point(20, 4)))
+        canvas20x4.draw(ColourFill(Point(4, 3), 'i'))
 
         val canvasPrint = canvas20x4.render()
 
@@ -219,8 +238,27 @@ class CharCanvasTest {
                    |               eeeee|
                    ----------------------
                 """
-        canvas20x4.draw(Rectangle(Point(16,2), Point(20,4)))
-        canvas20x4.draw(ColourFill(Point(16,3), 'e'))
+        canvas20x4.draw(Rectangle(Point(16, 2), Point(20, 4)))
+        canvas20x4.draw(ColourFill(Point(16, 3), 'e'))
+
+        val canvasPrint = canvas20x4.render()
+
+        assertThat(canvasPrint).isEqualToCanvas(expectedCanvas)
+    }
+
+    @Test
+    fun `canvas - when clearing coloured canvas - clears canvas`() {
+        val expectedCanvas =
+                """
+                   ----------------------
+                   |                    |
+                   |                    |
+                   |                    |
+                   |                    |
+                   ----------------------
+                """
+        canvas20x4.draw(ColourFill(Point(16, 2), 'o'))
+        canvas20x4.clear()
 
         val canvasPrint = canvas20x4.render()
 
@@ -230,7 +268,7 @@ class CharCanvasTest {
 
     @Test(expected = PaintException::class)
     fun `canvas - when filling out of canvas - throws PaintException`() {
-        canvas20x4.draw(ColourFill(Point(16,23), 'e'))
+        canvas20x4.draw(ColourFill(Point(16, 23), 'e'))
     }
 
 }

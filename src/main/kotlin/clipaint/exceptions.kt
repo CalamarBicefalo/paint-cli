@@ -1,4 +1,4 @@
-package com.springernature.paint
+package clipaint
 
 open class PaintException(message: String) : RuntimeException(message)
 

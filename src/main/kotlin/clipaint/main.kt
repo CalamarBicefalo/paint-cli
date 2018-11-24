@@ -1,6 +1,6 @@
 @file:JvmName("Paint")
 
-package com.springernature.paint
+package clipaint
 
 fun main(args: Array<String>) {
     startPaint()

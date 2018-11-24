@@ -1,4 +1,4 @@
-package com.springernature.paint
+package clipaint
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

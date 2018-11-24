@@ -1,4 +1,4 @@
-group 'com.springernature'
+group 'clipaint'
 
 buildscript {
     ext {
@@ -41,6 +41,6 @@ compileTestKotlin {
 jar {
     baseName = "paint"
     manifest {
-        attributes 'Main-Class': 'com.springernature.paint.Paint'
+        attributes 'Main-Class': 'clipaint.Paint'
     }
 }

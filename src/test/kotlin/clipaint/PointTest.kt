@@ -1,4 +1,4 @@
-package com.springernature.paint
+package clipaint
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -12,14 +12,14 @@ class PointTest {
         val neighbours = point.neighbours()
 
         assertThat(neighbours).containsExactlyInAnyOrder(
-                Point(2,3),
-                Point(3,3),
-                Point(4,3),
-                Point(2,4),
-                Point(4,4),
-                Point(2,5),
-                Point(3,5),
-                Point(4,5)
+                Point(2, 3),
+                Point(3, 3),
+                Point(4, 3),
+                Point(2, 4),
+                Point(4, 4),
+                Point(2, 5),
+                Point(3, 5),
+                Point(4, 5)
         )
     }
 
@@ -29,7 +29,7 @@ class PointTest {
 
         val points = point.getPoints()
 
-        assertThat(points).containsExactlyInAnyOrder(Point(3,4))
+        assertThat(points).containsExactlyInAnyOrder(Point(3, 4))
     }
 
 
